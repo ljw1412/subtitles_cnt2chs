@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Unicode Table</title>
+  <!-- <script src="https://cdn.bootcss.com/vue/2.6.10/vue.esm.browser.min.js"/></script> -->
+  <script src="https://cdn.bootcss.com/vue/2.6.10/vue.min.js"></script>
+  <script src="https://cdn.bootcss.com/xlsx/0.15.1/xlsx.full.min.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    <button @click="save">保存</button>
+    <table>
+      <tr>
+        <th>unicode码</th>
+        <th>值</th>
+      </tr>
+      <tr v-for="item of list" :key="item.unicode">
+        <td>{{item.unicode}}</td>
+        <td>{{item.value}}</td>
+      </tr>
+    </table>
+  </div>
+</body>
+
+<script>
+  window.onload = () => {
+    new Vue({
+      el: '#app',
+      data() {
+        return {
+          list: []
+        }
+      },
+
+      methods: {
+        save() {
+          const workbook = XLSX.utils.table_to_book(document.querySelector('table'));
+          XLSX.writeFile(workbook, 'unicodeTable.xlsx')
+        }
+      },
+
+      created() {
+        for (i = 0; i < 0xffff; i++) {
+          const unicode = ('0000' + i.toString(16)).substr(-4).toUpperCase()
+          this.list.push({ unicode, value: eval(`'\\u${unicode}'`) })
+        }
+      }
+    })
+  }
+</script>
+
+</html>
