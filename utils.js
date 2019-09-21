@@ -15,14 +15,16 @@ async function listFiles(path, ext) {
 
   const fileList = []
   await Promise.all(
-    list.map(async filename => {
-      const fPath = pth.join(path, filename)
-      const stat = await fs.stat(fPath)
-      if (stat.isFile()) {
-        fileList.push(fPath)
-      }
-      return fPath
-    })
+    list
+      .filter(filename => !filename.includes('_sify'))
+      .map(async filename => {
+        const fPath = pth.join(path, filename)
+        const stat = await fs.stat(fPath)
+        if (stat.isFile()) {
+          fileList.push(fPath)
+        }
+        return fPath
+      })
   )
   return ext
     ? fileList.filter(item => pth.extname(item).toLowerCase() === ext)
