@@ -66,4 +66,12 @@ async function executeAll(pathList, rp = {}) {
   }
 }
 
-module.exports = { execute, executeAll }
+async function srtSifyAll(pathList) {
+  for (let i = 0; i < pathList.length; i++) {
+    const path = pathList[i]
+    let context = await utils.readFile(path)
+    utils.writeFile(path, sify(context))
+  }
+}
+
+module.exports = { execute, executeAll, srtSifyAll }

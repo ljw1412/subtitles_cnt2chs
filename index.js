@@ -1,7 +1,7 @@
 const program = require('commander')
 const inquirer = require('inquirer')
 const utils = require('./utils')
-const { execute, executeAll } = require('./executor')
+const { execute, executeAll, srtSifyAll } = require('./executor')
 
 let directory = null
 let ext = null
@@ -17,7 +17,7 @@ async function input() {
       type: 'list',
       name: 'ext',
       message: '请选择文件的后缀:',
-      choices: ['.ass', '.ssa']
+      choices: ['.ass', '.ssa', '.srt']
     }
   ])
   return answers
@@ -28,9 +28,14 @@ async function main() {
 
   if (await utils.isExists(directory)) {
     const fileList = await utils.listFiles(directory, ext)
-    await executeAll(fileList, {
-      'Default,方正准圆_GBK': 'Default,黑体'
-    })
+    if (ext === '.srt') {
+      await srtSifyAll(fileList)
+    } else {
+      await executeAll(fileList, {
+        方正兰亭中黑_GBK: '黑体',
+        'MStiffHeiHK-UltraBold': '黑体'
+      })
+    }
   } else {
     await main()
   }
