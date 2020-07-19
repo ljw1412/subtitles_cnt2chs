@@ -62,7 +62,7 @@ async function writeFile(path, str, cover = false) {
       const { dir, ext, name } = pth.parse(path)
       path = pth.format({
         dir,
-        name: name + '_sify',
+        name: 'sify_' + name,
         ext: ext.toLowerCase()
       })
     }

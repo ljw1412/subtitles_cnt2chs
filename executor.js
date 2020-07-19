@@ -45,12 +45,12 @@ async function execute(path, rp = {}) {
       if (event.length - 1 >= textIndex) {
         // 原始字符串
         const oText = event[textIndex]
-        console.log(oText)
+        // console.log(oText)
         // 排除日语文本的简体化
         if (/[\u3040-\u31ff]/g.test(oText)) continue
         // 简体化后
         const sText = sify(oText)
-        console.log(sText)
+        // console.log(sText)
         // 替换原始字符串
         context = context.replace(oText, sText)
       }
